@@ -291,7 +291,7 @@ cleanup_chroot ()
 	[ -z "$root" ] && exit 1
 	signal_chrooted_processes "$root" SIGTERM
 	signal_chrooted_processes "$root" SIGKILL
-	umount "${root}/tmp/local-apt" 2>/dev/null || umount -l "${root}/tmp/local-apt"
+	# umount "${root}/tmp/local-apt" 2>/dev/null || umount -l "${root}/tmp/local-apt"
 	rm -f "${root}/etc/apt/sources.list.d/nailgun-local.list"
 	rm -rf $root/var/cache/apt/archives/*.deb
 	rm -f $root/etc/apt/apt.conf.d/01mirantis-use-proxy.conf
@@ -412,7 +412,7 @@ final_cleanup ()
 {
 	signal_chrooted_processes "$root" SIGTERM
 	signal_chrooted_processes "$root" SIGKILL
-	for mnt in /tmp/local-apt /mnt/dst /mnt/src /mnt /proc; do
+	for mnt in /mnt/dst /mnt/src /mnt /proc; do
 		if mountpoint -q "${root}${mnt}"; then
 			umount "${root}${mnt}" || umount -l "${root}${mnt}" || true
 		fi
