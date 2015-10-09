@@ -8,9 +8,9 @@ datadir="${bindir%/*}/share/fuel-bootstrap-image"
 global_conf="/etc/fuel-bootstrap-image.conf"
 [ -r "$global_conf" ] && . "$global_conf"
 
-[ -z "$MOS_VERSION" ] && MOS_VERSION="8.0"
+[ -z "$MOS_VERSION" ] && MOS_VERSION="7.0"
 [ -z "$DISTRO_RELEASE" ] && DISTRO_RELEASE="trusty"
-[ -z "$MIRROR_DISTRO" ] && MIRROR_DISTRO="http://archive.ubuntu.com/ubuntu"
+[ -z "$MIRROR_DISTRO" ] && MIRROR_DISTRO="http://mirror.yandex.ru/ubuntu/"
 [ -z "$MIRROR_MOS" ] && MIRROR_MOS="http://mirror.fuel-infra.org/mos-repos/ubuntu/$MOS_VERSION"
 [ -z "$KERNEL_FLAVOR" ] && KERNEL_FLAVOR="-generic-lts-trusty"
 [ -z "$ARCH" ] && ARCH="amd64"
@@ -180,9 +180,9 @@ add_local_mos_repo ()
 	mkdir -p "${root}${path_in_chroot}" "${source_parts_d}"
 	mount -o bind "$local_repo" "${root}${path_in_chroot}"
 	mount -o remount,ro,bind "${root}${path_in_chroot}"
-	cat > "${source_parts_d}/nailgun-local.list" <<-EOF
-	deb file://${path_in_chroot} ${mos_codename} main
-	EOF
+	# cat > "${source_parts_d}/nailgun-local.list" <<-EOF
+	# deb file://${path_in_chroot} ${mos_codename} main
+	# EOF
 }
 
 allow_insecure_apt ()
