@@ -358,7 +358,7 @@ build_image ()
 	propagate_host_resolv_conf "$root"
 	make_utf8_locale "$root"
 	apt_setup "$root"
-	add_local_mos_repo "$root"
+	# add_local_mos_repo "$root"
 	allow_insecure_apt "$root"
 	upgrade_chroot "$root"
 	install_packages "$root" $BOOTSTRAP_PKGS $BOOTSTRAP_FUEL_PKGS
