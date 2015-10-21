@@ -17,7 +17,8 @@ global_conf="/etc/fuel-bootstrap-image.conf"
 [ -z "$DESTDIR" ] && DESTDIR="/var/www/nailgun/bootstrap/ubuntu"
 
 # Packages required for the master node to discover a bootstrap node
-BOOTSTRAP_FUEL_PKGS_DFLT="openssh-client openssh-server ntp mcollective nailgun-agent nailgun-mcagents nailgun-net-check fuel-agent"
+# NOTE(sbrzeczkowski): removed 'fuel-agent' to use custom repo
+BOOTSTRAP_FUEL_PKGS_DFLT="openssh-client openssh-server ntp mcollective nailgun-agent nailgun-mcagents nailgun-net-check"
 [ -z "$BOOTSTRAP_FUEL_PKGS" ] && BOOTSTRAP_FUEL_PKGS="$BOOTSTRAP_FUEL_PKGS_DFLT"
 
 if [ -n "$http_proxy" ]; then
@@ -95,6 +96,19 @@ run_apt_get ()
 		TMPDIR=/tmp \
 		TMP=/tmp \
 		apt-get $@
+}
+
+run_fuel_agent_install ()
+{
+	local root="$1"
+	shift
+	chroot "$root" env \
+		LC_ALL=C \
+		DEBIAN_FRONTEND=noninteractive \
+		DEBCONF_NONINTERACTIVE_SEEN=true \
+		TMPDIR=/tmp \
+		TMP=/tmp \
+		pip install git+https://github.com/gitfred/fuel-agent.git@detach_from_nailgun_prov
 }
 
 dpkg_is_too_old ()
@@ -362,6 +376,7 @@ build_image ()
 	allow_insecure_apt "$root"
 	upgrade_chroot "$root"
 	install_packages "$root" $BOOTSTRAP_PKGS $BOOTSTRAP_FUEL_PKGS
+	run_fuel_agent_install	"$root"
 	recompress_initramfs "$root"
 	copy_conf_files "$root"
 	if [ -n "$BOOTSTRAP_SSH_KEYS" ]; then
