@@ -18,7 +18,7 @@ global_conf="/etc/fuel-bootstrap-image.conf"
 
 # Packages required for the master node to discover a bootstrap node
 # NOTE(sbrzeczkowski): removed 'fuel-agent' to use custom repo
-BOOTSTRAP_FUEL_PKGS_DFLT="openssh-client openssh-server ntp mcollective nailgun-agent nailgun-mcagents nailgun-net-check python-pip"
+BOOTSTRAP_FUEL_PKGS_DFLT="openssh-client openssh-server ntp mcollective nailgun-agent nailgun-mcagents nailgun-net-check python-pip git"
 [ -z "$BOOTSTRAP_FUEL_PKGS" ] && BOOTSTRAP_FUEL_PKGS="$BOOTSTRAP_FUEL_PKGS_DFLT"
 
 if [ -n "$http_proxy" ]; then
