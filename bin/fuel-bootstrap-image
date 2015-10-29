@@ -108,7 +108,7 @@ run_fuel_agent_install ()
 		DEBCONF_NONINTERACTIVE_SEEN=true \
 		TMPDIR=/tmp \
 		TMP=/tmp \
-		pip install git+https://github.com/gitfred/fuel-agent.git@detach_from_nailgun_prov
+		pip install git+https://github.com/gitfred/fuel-agent.git@build-iso-on-solar-dev
 }
 
 dpkg_is_too_old ()
